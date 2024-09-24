@@ -1,17 +1,29 @@
-from boxsdk import Client, OAuth2
+"""
+Handles the box client object creation
+orchestrates the authentication process
+"""
 
-def initialize():
-    # Replace with your actual credentials
-    oauth2 = OAuth2(
-        client_id='YOUR_CLIENT_ID',
-        client_secret='YOUR_CLIENT_SECRET',
-        access_token='YOUR_ACCESS_TOKEN',
-    )
-    client = Client(oauth2)
-    return client
+from boxsdk import Client
+from box_integration.box_oauth import oauth_from_previous
+from box_integration.oauth_callback import callback_handle_request, open_browser
+import config
 
-def upload_file(client, file_path):
-    folder_id = '0'  # '0' is the root folder
-    with open(file_path, 'rb') as file_stream:
-        uploaded_file = client.folder(folder_id).upload_stream(file_stream, file_path)
-    return uploaded_file.id
+
+def get_client() -> Client:
+    """Returns a boxsdk Client object"""
+    oauth = oauth_from_previous()
+
+    # do we need to authorize the app?
+    if not oauth.access_token:
+        auth_url, csrf_token = oauth.get_authorization_url(config.REDIRECT_URI)
+        open_browser(auth_url)
+        callback_handle_request(csrf_token)
+
+    oauth = oauth_from_previous()
+
+    if not oauth.access_token:
+        raise RuntimeError("Unable to authenticate")
+
+    oauth.refresh(oauth.access_token)
+
+    return Client(oauth)
