@@ -2,6 +2,8 @@
 
 This project demonstrates how to integrate Box and Pinecone in a Python project.
 
+
+
 ## Setup
 
 1. Clone the repository:
@@ -15,7 +17,9 @@ This project demonstrates how to integrate Box and Pinecone in a Python project.
 3. Install dependencies:
    ```bash
    pip install -r requirements.txt
-4. Update the credentials in box_integration/box_client.py and pinecone_integration/pinecone_client.py.
+4. Create config.py file. Update the credentials and Box folder id. 
+   ```bash
+   cp sample_config.py config.py
 5. Run the main file:
    ```bash
    python main.py
