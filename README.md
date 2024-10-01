@@ -5,7 +5,7 @@ width=100%;>
 
 # Box and Pinecone Integration Sample
 
-This project demonstrates how to integrate Box and Pinecone via a python script. This coincidies with a blog post on Medium. Please see that posting for more insurtuctions on information.
+This project demonstrates how to integrate Box and Pinecone via a python script. This coincides with a blog post on Medium. Please see that posting for more insructuctions on how to use this solution.
 
 ## Setup
 
