@@ -1,8 +1,11 @@
+<img src="images/box-pinecone.png" 
+alt= “box-pinecone” 
+style="margin-left:-10px;"
+width=100%;>
+
 # Box and Pinecone Integration Sample
 
-This project demonstrates how to integrate Box and Pinecone in a Python project.
-
-
+This project demonstrates how to integrate Box and Pinecone via a python script. This coincidies with a blog post on Medium. Please see that posting for more insurtuctions on information.
 
 ## Setup
 
