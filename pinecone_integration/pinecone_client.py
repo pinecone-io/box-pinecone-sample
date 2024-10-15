@@ -4,7 +4,8 @@ from textwrap import wrap
 
 def initialize_pinecone_client():
     pinecone = Pinecone(
-        api_key=config.PINECONE_API_KEY
+        api_key=config.PINECONE_API_KEY, 
+        source_tag="box_pinecone_integration"
     )
     return pinecone
 
