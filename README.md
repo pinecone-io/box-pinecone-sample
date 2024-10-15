@@ -5,9 +5,7 @@ width=100%;>
 
 # Box and Pinecone Integration Sample
 
-This project demonstrates how to integrate Box and Pinecone via a python script. This coincides with a blog post on Medium. Please see that posting for more insructuctions on how to use this solution.
-
-LINK TO BLOG
+This project demonstrates how to integrate Box and Pinecone via a python script. This coincides with a [blog post](https://medium.com/box-developer-blog/demo-box-pinecone-f03783c412bb) on Medium. Please see that posting for more insructuctions on how to use this solution.
 
 You will need accounts for Box, Pinecone, and OpenAI to appropriate run this demo. You will also need an OAuth Box custom application created in the Box Developer Console.
 
