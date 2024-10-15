@@ -14,6 +14,7 @@ def is_supported_file_type(file_name):
     return any(file_name.endswith(ext) for ext in SUPPORTED_TEXT_FILE_TYPES)
 
 def get_files_in_folder(client, folder_id):
+    client.user().get(headers={"x-box-ai-library": "pinecone"})
     folder = client.folder(folder_id).get()
     items = folder.get_items()
     file_objects = []
