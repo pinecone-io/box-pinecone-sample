@@ -21,7 +21,7 @@ def vectorize_query(client, query_text):
     # Extract the embedding values (list of floats)
     return query_embedding[0]['values']
 
-def query_pinecone(client, query_vector, top_k=5):
+def query_pinecone(client, query_vector, box_user_id, top_k=5):
     index_name = config.PINECONE_INDEX
     index = client.Index(index_name)
     
@@ -29,7 +29,8 @@ def query_pinecone(client, query_vector, top_k=5):
     query_results = index.query(
         vector=query_vector,
         top_k=top_k,
-        include_metadata=True
+        include_metadata=True,
+        namespace=box_user_id
     )
     
     return query_results

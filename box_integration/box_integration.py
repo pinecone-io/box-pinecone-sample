@@ -60,3 +60,17 @@ def get_file_text_content(client, file):
         
         return cleaned_text
 
+def download_files(client, files):
+
+    file_names = []
+
+    for file in files:
+        
+        file_name=file.name
+
+        with open(f"./{file_name}", 'wb') as output_file:
+            client.file(file.id).download_to(output_file)
+
+        file_names.append(file_name)        
+
+    return file_names
