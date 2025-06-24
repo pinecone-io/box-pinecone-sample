@@ -23,7 +23,7 @@ def chunk_text(text, chunk_size=4000, overlap=200):
         start = end - overlap  # Overlap adjustment
     return chunks
 
-def store_metadata_in_pinecone(client, file_id, combined_text):
+def store_metadata_in_pinecone(client, file_id, combined_text, box_user_id):
     index_name = config.PINECONE_INDEX
     
     # Ensure combined_text["text"] is not None
@@ -64,8 +64,9 @@ def store_metadata_in_pinecone(client, file_id, combined_text):
             "created_at": combined_text.get("created_at"), 
             "modified_at": combined_text.get("modified_at"), 
             "size": combined_text.get("size", 0),
+            "box_user_id": box_user_id,
             "chunk_text": chunk  # Store the chunk text as part of the metadata
         }
         
         # Upsert the vector with the chunk ID and metadata into Pinecone
-        index.upsert([(f"{file_id}_chunk_{i}", vectors, minimal_metadata)])
+        index.upsert([(f"{file_id}_chunk_{i}", vectors, minimal_metadata)], namespace=box_user_id)

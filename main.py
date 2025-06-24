@@ -12,6 +12,9 @@ logging.getLogger("boxsdk").setLevel(logging.CRITICAL)
 def main():
     # Initialize Box client
     box_client = get_client()
+
+    # Get Box User ID for namespacing
+    box_user = box_client.user().get()
     
     # Initialize Pinecone client
     pinecone_client = initialize_pinecone_client()
@@ -34,14 +37,15 @@ def main():
                 "file_id": file.id,
                 "created_at": file.created_at,
                 "modified_at": file.modified_at,
-                "size": file.size
+                "size": file.size,
+                "box_user_id": box_user.id
             }
             
             # Combine text content with metadata for vectorization
             combined_text = text_content + " " + " ".join(f"{key}: {value}" for key, value in metadata.items())
             # print((f"Text: {combined_text}"))
             # Store the vectorized representation and metadata in Pinecone
-            store_metadata_in_pinecone(pinecone_client, file.id, {"text": combined_text, **metadata})
+            store_metadata_in_pinecone(pinecone_client, file.id, {"text": combined_text, **metadata}, box_user.id)
             
             print(f"Processed and stored metadata for file: {file.name}")
         
