@@ -9,6 +9,9 @@ This project demonstrates how to integrate Box and Pinecone via a python script.
 
 You will need accounts for Box, Pinecone, and OpenAI to appropriate run this demo. You will also need an OAuth Box custom application created in the Box Developer Console.
 
+> [!IMPORTANT]
+> Once files leave Box, they are no longer under the protection of Box. It is incumbant upon the developer to ensure proper access rights. In this example, we are using OAuth2 to ensure the user can only access files they have access to, and on the Pinecone side, we are creating a namespace for each user based on their Box user ID, as well as adding their user ID to the metadata. This should ensure only the user can access their vectors.
+
 ## Setup
 
 1. Clone the repository:
@@ -37,3 +40,15 @@ You will need accounts for Box, Pinecone, and OpenAI to appropriate run this dem
 7. To answer queries about the created embeddings: 
    ```bash
    python query.py
+   ```
+
+## Pinecone Assistant
+
+New to this repository is a Pinecone Assistant demo. It relies on the same configuration as the other examples, so no additional setup is needed for the repo. You will need to make sure you have accessed the [Pinecone Console](https://app.pinecone.io/) and accepted the terms for using assistants.
+
+The example will download the files from the prescribed folder in Box and upload the files to the assistant. You will then have access to a commandline chatbot to ask questions about the files you uploaded. Simply type quit or exit to end the chatbot, at which time the assistant and all the files uploaded will be deleted.
+
+To run:
+```bash
+python assistant.py
+```
