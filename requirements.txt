@@ -6,6 +6,7 @@ idna==3.7
 numpy==2.0.1
 pandas==2.2.2
 pinecone-client==5.0.1
+pinecone-plugin-assistant==1.7.0
 pinecone-plugin-inference==1.0.3
 pinecone-plugin-interface==0.0.7
 python-dateutil==2.9.0.post0
