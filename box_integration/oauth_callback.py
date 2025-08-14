@@ -15,7 +15,8 @@ CSRF_TOKEN_ORIG = ""
 
 class CallbackServer(BaseHTTPRequestHandler):
     """
-    Creates a mini http request handler to handle a single callback request"""
+    Creates a mini http request handler to handle a single callback request
+    """
 
     def do_GET(self):  # pylint: disable=invalid-name
         """
