@@ -5,10 +5,7 @@ charset-normalizer==3.3.2
 idna==3.7
 numpy==2.0.1
 pandas==2.2.2
-pinecone>=6.0.0
-pinecone-plugin-assistant==1.7.0
-pinecone-plugin-inference==1.0.3
-pinecone-plugin-interface==0.0.7
+pinecone>=7.3.0
 python-dateutil==2.9.0.post0
 pytz==2024.1
 requests==2.32.3

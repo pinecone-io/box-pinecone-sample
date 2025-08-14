@@ -4,6 +4,11 @@ import json
 import os.path
 from boxsdk import OAuth2
 import config
+import logging
+
+log_level = getattr(logging, config.LOG_LEVEL.upper(), logging.ERROR)
+logging.basicConfig(level=log_level)
+logging.getLogger("box-pinecone-integration")
 
 
 def oauth_from_config() -> OAuth2:

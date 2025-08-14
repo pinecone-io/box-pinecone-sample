@@ -1,6 +1,6 @@
 """
-Handles the box client object creation
-orchestrates the authentication process
+Handles the box client object creation.
+Orchestrates the authentication process.
 """
 
 from boxsdk import Client
@@ -10,10 +10,11 @@ import config
 
 
 def get_client() -> Client:
-    """Returns a boxsdk Client object"""
+    """
+    Returns a boxsdk Client object.
+    """
     oauth = oauth_from_previous()
 
-    # do we need to authorize the app?
     if not oauth.access_token:
         auth_url, csrf_token = oauth.get_authorization_url(config.REDIRECT_URI)
         open_browser(auth_url)
