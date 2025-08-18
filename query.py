@@ -44,7 +44,7 @@ def query_openai_for_answer(openai_client, query_text, context):
         {"role": "user", "content": f"Context: {context}\n"},
         {"role": "user", "content": f"""
         Question: {query_text}. 
-        Please use the above context to answer, considering synonymous or related terms and the temporal context.
+        Please use only the above context to answer, considering synonymous or related terms and the temporal context.
         Focus on answering the question based on the context provided.
         Keep your answer concise and to the point.
         Keep your tone professional and avoid using emojis.
@@ -52,7 +52,7 @@ def query_openai_for_answer(openai_client, query_text, context):
         """,
         },
     ]
-    response = openai_client.chat.completions.create(model="gpt-4", messages=messages, max_tokens=150)
+    response = openai_client.chat.completions.create(model="gpt-4o", messages=messages, max_tokens=250)
     return response.choices[0].message.content.strip()
 
 def main():

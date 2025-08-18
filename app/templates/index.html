@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Query Interface</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #EAEDF0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .response-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 8%;
+            position: relative;
+        }
+        .response-box {
+            width: 45%;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+            height: 70vh;
+            overflow-y: auto;
+            background-color: #FBFBFC;
+            position: relative;
+        }
+        #bare-response {
+            background-color: #FFFFFF;
+        }
+        .response-label {
+            position: absolute;
+            top: -30px;
+            width: 40%;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        #query-form {
+            width: 84%;
+            position: absolute;
+            bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        #query-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 17px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 17px;
+            background-color: #1B17F5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .loading {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            display: none;
+        }
+        .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            margin: 0 2px;
+            background-color: #1B17F5;
+            border-radius: 50%;
+            animation: bounce 1.2s infinite ease-in-out both;
+        }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1.0); }
+        }
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            max-width: 80%;
+            width: fit-content;
+            border-radius: 10px;
+            box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+            font-size: 17px;
+            position: relative;
+        }
+        .query {
+            background-color: #E0E7FF;
+            text-align: left;
+        }
+        .query::after {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 10px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent #E0E7FF transparent transparent;
+        }
+        .response {
+            background-color: #D1FAE5;
+            text-align: left;
+            margin-left: auto;
+        }
+        .response::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: 10px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent transparent transparent #D1FAE5;
+        }
+    </style>
+</head>
+<body>
+    <div class="response-container">
+        <div class="response-label" style="left: 8%;">Contextual LLM Response</div>
+        <div class="response-label" style="right: 8%;">Bare LLM Response</div>
+        <div class="response-box" id="contextual-response">
+            <div id="contextual-content"></div>
+            <div class="loading" id="contextual-loading">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+        <div class="response-box" id="bare-response">
+            <div id="bare-content"></div>
+            <div class="loading" id="bare-loading">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+    </div>
+    <form id="query-form">
+        <input type="text" id="query-input" placeholder="Enter your query here">
+        <button type="submit">Submit</button>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        document.getElementById('query-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const queryInput = document.getElementById('query-input');
+            const queryValue = queryInput.value;
+            queryInput.value = '';
+            const queryHtml = `<div class="message query">${queryValue}</div>`;
+            document.getElementById('contextual-content').innerHTML += queryHtml;
+            document.getElementById('bare-content').innerHTML += queryHtml;
+            document.getElementById('contextual-loading').style.display = 'block';
+            document.getElementById('bare-loading').style.display = 'block';
+            const response = await fetch('/query', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ query: queryValue })
+            });
+            const data = await response.json();
+            document.getElementById('contextual-loading').style.display = 'none';
+            document.getElementById('bare-loading').style.display = 'none';
+            const contextualHtml = `<div class="message response">${marked.parse(data.contextual_response)}</div>`;
+            const bareHtml = `<div class="message response">${marked.parse(data.bare_response)}</div>`;
+            document.getElementById('contextual-content').innerHTML += contextualHtml;
+            document.getElementById('bare-content').innerHTML += bareHtml;
+        });
+    </script>
+</body>
+</html>

@@ -135,3 +135,19 @@ def download_files(client, files):
         file_names.append(file_name)        
 
     return file_names
+
+def get_user_id(client):
+    """
+    Retrieves the Box user ID for the authenticated user.
+
+    Parameters:
+    - client: The Box client used to interact with the Box service.
+
+    Returns:
+    - The user ID of the authenticated user.
+    """
+    logging.debug('Retrieving user ID')
+    user_info = client.user().get()
+    user_id = user_info.id
+    logging.info(f'User ID retrieved: {user_id}')
+    return user_id
